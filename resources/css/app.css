@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.anybody-font {
+    font-family: "Anybody", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+  
+  } 
+  
+
+  .Nunito-font {
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+.dynapuff-font {
+  font-family: 'DynaPuff', cursive;
+}
+
+.acme-regular-font {
+  font-family: "Acme", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}

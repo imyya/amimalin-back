@@ -12,19 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('email')->unique()->change();
+        //    // $table->string('email')->unique();
             $table->string('password')->nullable(false)->change(); // Colonne password existante
-            $table->string('title', 20)->nullable(false)->change(); // Colonne title existante
-            $table->string('firstName', 30)->nullable(false)->change(); // Colonne firstName existante
-            $table->string('lastName', 30)->nullable(false)->change(); // Colonne lastName existante
-            $table->string('phone', 20)->nullable(false)->change(); // Colonne phone existante
-            $table->float('latitude')->nullable(false)->change();
-            $table->float('longitude')->nullable(false)->change();
-            $table->date('birthday')->nullable()->change();
-            $table->integer('jobTypeId')->nullable()->change();
-            $table->tinyInteger('registrationType')->nullable()->change();
-            $table->integer('isDogsitter')->nullable()->change();
-            $table->integer('isPremiumDogsitter')->nullable()->change();
+        //     $table->string('title', 20)->nullable(false)->change(); // Colonne title existante
+        //     $table->string('firstName', 30)->nullable(false)->change(); // Colonne firstName existante
+        //     $table->string('lastName', 30)->nullable(false)->change(); // Colonne lastName existante
+        //     $table->string('phone', 20)->nullable(false)->change(); // Colonne phone existante
+        //     $table->float('latitude')->nullable(false)->change();
+        //     $table->float('longitude')->nullable(false)->change();
+            $table->date('birthday')->nullable(true)->change();
+            $table->integer('jobTypeId')->nullable(true)->change();
+            $table->tinyInteger('registrationType')->nullable(true)->change();
+            $table->integer('isDogsitter')->nullable(true)->change();
+            $table->integer('isPremiumDogsitter')->nullable(true)->change();
+
             $table->dateTime('creationDate')->nullable()->change();
             $table->date('lastLoginDate')->nullable()->change();
             $table->mediumText('internalNotes')->nullable()->change();
@@ -32,8 +33,8 @@ return new class extends Migration
             $table->string('gclid', 100)->nullable()->change();
             $table->string('cid', 100)->nullable()->change();
             $table->string('sessionId', 100)->nullable()->change();
-            $table->integer('activation_id')->nullable()->change();
-            //
+            // $table->integer('activation_id')->nullable()->change();
+            
         });
     }
 

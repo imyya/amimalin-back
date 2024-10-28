@@ -7,108 +7,132 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Providers\Sha512Hasher;
+use App\View\Components\Register;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
-use Tymon\JWTAuth\Contracts\Providers\JWT;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use RealRashid\SweetAlert\SweetAlertServiceProvider;
+
 
 class AuthController extends Controller
 
 {
-//     public function __construct()
-// {
-//     $this->middleware('auth:api', ['except' => ['login', 'register']]);
-// }
+    //     public function __construct()
+    // {
+    //     $this->middleware('auth:api', ['except' => ['login', 'register']]);
+    // }
 
-    public function login(LoginRequest $request)
+    public function showLoginForm()
     {
-        // Validation des données de la requête
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        $user = User::where('email', $request->email)->first();
-
-        // Chercher l'utilisateur par email
-        if ($user && app(Sha512Hasher::class)->check($request->password, $user->password)) {
-            // Authentification réussie
-            $token = JWTAuth::fromUser($user);
-            return response([
-                'ok' => true,
-                'data' => UserResource::make($user),
-                'message'=> 'User logged in successfully',
-                'authorisation' => [
-                    'token' => $token,
-                    'type' => 'bearer',
-                ]
-            ]);
-        }
-
-        return response([
-            'ok' => false,
-            'data' => null,
-            'message' => 'Invalid credentials',
-        ], Response::HTTP_UNAUTHORIZED);
+        return view('components.login');
     }
 
-    public function register(RegisterRequest $request){
-        // $request->validate([
-        //     // 'name' => 'required|string|max:255',
-        //     'email' => 'required|string|email|max:255|unique:users',
-        //     'password' => 'required|string|min:6',
+    public function showRegisterForm()
+    {
+        return view('components.register');
+    }
+
+    public function login(Loginrequest $request)
+    {
+
+
+        try {
+            // Chercher l'utilisateur par email
+            $user = User::where('email', $request->email)->first();
+
+            if ($user && app(Sha512Hasher::class)->check($request->password, $user->password)) {
+                Auth::login($user);
+                $request->session()->regenerate();
+
+                return redirect()->route('home')->with('success', 'Vous êtes connecté');
+            }
+
+            // Alert::toast('Email ou mot de passe incorrect.', 'error')->position('top-end');
+
+            return redirect('login')->withErrors([
+                'error' => 'Email ou mot de passe incorrect',
+            ])->withInput();
+        } catch (\Exception $e) {
+            // \Log::error('Login error: ' . $e->getMessage());
+
+            return back()->withErrors([
+                'error' => 'Une erreur est survenue lors de la tentative de connexion. Veuillez réessayer plus tard.',
+            ])->withInput();
+        }
+
+
+
+
+        // Authentification réussie
+        // $token = JWTAuth::fromUser($user);
+        // return response()->json([
+        //     'ok' => true,
+        //     'data' => UserResource::make($user),
+        //     'message'=> 'User logged in successfully',
+        //     'authorisation' => [
+        //         'token' => $token,
+        //         'type' => 'bearer',
+        //     ]
         // ]);
 
-        $existingUser = User::where('email', $request->email)->first();
-        // dd($existingUser);
 
-        if ($existingUser) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Email already exists',
-            ], 400);
+        // return response([
+        //     'ok' => false,
+        //     'data' => null,
+        //     'message' => 'Invalid credentials',
+        // ], Response::HTTP_UNAUTHORIZED);
+    }
+
+    public function register(RegisterRequest $request)
+    {
+        try {
+
+            $content = $request->all();
+            $existingUser = User::where('email', $content['email'])->first();
+
+            if ($existingUser) {
+
+
+                return back()->withErrors([
+                    'email' => 'Cet email est déjà utilisé',
+                ])->withInput();
+            }
+
+            $hashedPassword = app(Sha512Hasher::class)->make($content['password']->password);
+            $user = User::create([
+                'latitude' => $content['latitude'],
+                'email' => $content['email'],
+                'password' => $hashedPassword, // Hash the password
+                'longitude' => $content['longitude'],
+                'latitude' => $content['latitude'],
+                'title' => $content['title'],
+                'firstname' => $content['firstname'],
+                'lastname' => $content['lastname'],
+                'name' => $content['firstname'] . ' ' . $content['lastname'],
+            
+            ]);
+        } catch (\Exception $e) {
+
         }
-        $hashedPassword = app(Sha512Hasher::class)->make($request->password);
-         //dd($hashedPassword);
 
-         //dd($request);
-        $user = User::create([
-            'latitude' => $request->latitude,
-            'email' => $request->email,
-            'password' => $hashedPassword, // Hash the password
-            'longitude' => $request->longitude,
-            'title' => $request->title,
-            'firstname' => $request->firstname,
-            'lastname'=>$request->lastname
-            // 'birthday' => $request->birthday,
-            // 'jobTypeId' => $request->jobTypeId,
-            // 'presentation' => $request->presentation,
-            // 'registrationType' => $request->registrationType,
-            // 'isDogsitter' => $request->isDogsitter,
-            // 'isPremiumDogsitter' => $request->isPremiumDogsitter,
-            // 'creationDate' => $request->creationDate,
-            // 'lastLoginDate' => $request->lastLoginDate,
-            // 'internalNotes' => $request->internalNotes,
-            // 'activation' => $request->activation,
-            // 'gclid' => $request->gclid,
-            // 'cid' => $request->cid,
-            // 'sessionId' => $request->sessionId,
-            // 'activation_id' => $request->activation_id,
 
-        ]);
 
-        $token = JWTAuth::fromUser($user);
-        return response()->json([
-            'ok' => true,
-            'message' => 'User created successfully',
-            'data' => UserResource::make($user),
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ]);
+        //dd($hashedPassword);
+
+        //dd($request);
+
+
+        // $token = JWTAuth::fromUser($user);
+        // return response()->json([
+        //     'ok' => true,
+        //     'message' => 'User created successfully',
+        //     'data' => UserResource::make($user),
+        //     'authorisation' => [
+        //         'token' => $token,
+        //         'type' => 'bearer',
+        //     ]
+        // ]);
     }
 
 

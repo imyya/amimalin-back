@@ -41,7 +41,7 @@ return [
             'provider' => 'users',
         ],
         'api' => [
-            'driver' => 'jwt',
+            'driver' => 'jwt', //i added this when was working with angular
             'provider' => 'users',
         ],
     ],
