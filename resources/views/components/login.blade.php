@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('content')
+@include('sweetalert::alert')
+
 
 <div class="w-full lg:w-[54vw] h-[90vh] mx-auto Nunito-font  bg-slae-100 p-10 flex justify-center">
 
@@ -92,9 +94,7 @@
               </a>
             </button>
           </div>
-          @if ($errors)
-          <span style="color:red; font-size:large; ">{{ $errors->first('error') }}</span>
-          @endif
+          
         </div>
       </form>
     </div>

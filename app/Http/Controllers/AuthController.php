@@ -11,6 +11,7 @@ use App\View\Components\Register;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
 use Symfony\Component\HttpFoundation\Response;
 use RealRashid\SweetAlert\SweetAlertServiceProvider;
 
@@ -44,10 +45,11 @@ class AuthController extends Controller
                 Auth::login($user);
                 $request->session()->regenerate();
 
+                Alert::toast('Vous êtes connecté','success')->position('top-end');
                 return redirect('home')->with('success', 'Vous êtes connecté');
             }
 
-            // Alert::toast('Email ou mot de passe incorrect.', 'error')->position('top-end');
+             Alert::toast('Email ou mot de passe incorrect.', 'error')->position('top-end');
 
             return redirect('login')->withErrors([
                 'error' => 'Email ou mot de passe incorrect',

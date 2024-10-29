@@ -18,14 +18,14 @@ return [
             'label' => 'Trouver un petsitter',
             'route' => '/contact',
         ],
-        [
-            'label' => 'Connexion',
-            'route' => '/login',
-        ],
-        [
-            'label' => 'Deconnexion',
-            'route' => '/logout',
-        ],
+        // [
+        //     'label' => 'Connexion',
+        //     'route' => '/login',
+        // ],
+        // [
+        //     'label' => 'Deconnexion',
+        //     'route' => '/logout',
+        // ],
     ],
 
     'mobile_items' => [
@@ -45,13 +45,13 @@ return [
             'label' => 'Trouver mon petsitter',
             'route' => '/contact',
         ],
-        [
-            'label' => 'Connexion',
-            'route' => '/login',
-        ],
-        [
-            'label' => 'Deconnexion',
-            'route' => '/logout',
-        ],
+        // [
+        //     'label' => 'Connexion',
+        //     'route' => '/login',
+        // ],
+        // [
+        //     'label' => 'Deconnexion',
+        //     'route' => '/logout',
+        // ],
     ],
 ];

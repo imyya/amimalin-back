@@ -17,38 +17,36 @@
                     @if (isset($item['submenu']))
                     <div class="hidden rounded-b-md absolute top-full z-10 bg-white -translate-x-2 group-hover:block shadow-lg w-48 flex flex-col divide-y-2">
                         @foreach ($item['submenu'] as $subItem)
-                        @if($subItem['label'] == 'Connexion')
-                        @php
-                        echo "<!-- Guest User Detected -->";
-                        @endphp
-                        @guest
 
                         <a href="{{ $subItem['route'] }}" class="block px-4 py-2 text-stone-600 hover:text-orange-500">{{ $subItem['label'] }}</a>
-                        @endguest
-                        @elseif ($subItem['label'] == 'Deconnexion')
 
-                        @auth
-
-                        <span class="block px-4 py-2 text-stone-600 hover:text-orange-500" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ $subItem['label'] }}</span>
-                        >{{ $subItem['label'] }}</a>
-                        {{ __('Logout') }}
-
-
-
-                        <form method="POST" action="{{route('logout')}}" id="logout-form" enctype="multipart/form-data">
-                            {{ csrf_field() }}
-
-
-                        </form>
-                        @endauth
-                        @else
-                        <a href="{{ $subItem['route'] }}" class="block px-4 py-2 text-stone-600 hover:text-orange-500">{{ $subItem['label'] }}</a>
-                        @endif
                         @endforeach
+
+
                     </div>
                     @endif
+                    @endforeach
+
                 </li>
-                @endforeach
+                @if(Auth::check())
+                <li class="cursor-pointer group relative">
+                    <a href="{{route('logout')}}" class="relative" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Déconnexion
+                        <span class="absolute -bottom-2 h-1 -right-2 -left-2 origin-left rounded-full bg-orange-500 transition-transform duration-300 ease-out opacity-90 scale-x-0 group-hover:scale-x-90"></span>
+                    </a>
+                    <form method="POST" action="{{route('logout')}}" id="logout-form" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                    </form>
+                </li>
+
+                @else
+                <li class="cursor-pointer group relative">
+                    <a href="{{route('login')}}" class="relative">
+                        Connexion
+                        <span class="absolute -bottom-2 h-1 -right-2 -left-2 origin-left rounded-full bg-orange-500 transition-transform duration-300 ease-out opacity-90 scale-x-0 group-hover:scale-x-90"></span>
+                    </a>
+                </li>
+                @endif
                 <li class=" cursor-pointer text-center text-white bg-orng px-4  rounded-tl-2xl h-8 pb-2 rounded-br-md shadow-lg transform  transition duration-300 hover:bg-red-700 overflow-hidden ringing">
                     <!-- Numéro de téléphone au lieu du lien -->
                     📞 04 66 90 12 24

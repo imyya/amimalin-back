@@ -1,6 +1,6 @@
 @extends('layouts.app')
-
 @section('content')
+@include('sweetalert::alert')
 
 <div class="w-full h-full Nunito-font ">
     <!--Section recherche formulaire-->
