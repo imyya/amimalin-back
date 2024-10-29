@@ -14,11 +14,14 @@
                 <div class="flex flex-col items-center gap-2 mt-2 flex-wrap">
                     <span class="text-xl">Vos informations personnelles</span>
                     <div class="relative mb-2 w-[40%] h-10 ">
-                        <select class="w-full h-full text-center text-md tracking-wide font-medium border  rounded-full border-gray-300 rounded-g cursor-pointer focus:outline-none focus:ring-0 focus:border-transparent text-gray-500">
+                        <select name="title" class="w-full h-full text-center text-md tracking-wide font-medium border  rounded-full border-gray-300 rounded-g cursor-pointer focus:outline-none focus:ring-0 focus:border-transparent text-gray-500">
                             <option class="cursor-pointer" value="0" disabled selected>Civilité</option>
-                            <option class="cursor-pointer" value="1">M</option>
-                            <option class="cursor-pointer" value="2">Mme</option>
+                            <option class="cursor-pointer" value="M">M</option>
+                            <option class="cursor-pointer" value="Mme">Mme</option>
                         </select>
+                        @error('title')
+                        <span style="color:red; font-size:larg; ">{{ $message }}</span>
+                        @enderror
 
                     </div>
 
@@ -29,6 +32,9 @@
                                 type="text"
                                 name="lastname"
                                 class="text-center h-[90%] w-full border-2ext-md tracking-wide font-medium border  rounded-full border-gray-300 rounded-g cursor-pointer focus:outline-none focus focus:border-orng text-gray-500" />
+                            @error('lastname')
+                            <span style="color:red; font-size:larg; ">{{ $message }}</span>
+                            @enderror
 
 
                         </div>
@@ -39,6 +45,9 @@
                                 type="text"
                                 name="firstname"
                                 class="text-center h-[90%] w-full border-2ext-md tracking-wide font-medium border  rounded-full border-gray-300 rounded-g cursor-pointer focus:outline-none focus focus:border-orng text-gray-500" />
+                            @error('firstname')
+                            <span style="color:red; font-size:larg; ">{{ $message }}</span>
+                            @enderror
 
                         </div>
 
@@ -77,6 +86,9 @@
                                 type="password"
                                 name="password"
                                 class="text-center h-[90%] w-full border-2ext-md tracking-wide font-medium border  rounded-full border-gray-300 rounded-g cursor-pointer focus:outline-none focus focus:border-orng text-gray-500" />
+                            @error('password')
+                            <span style="color:red; font-size:larg; ">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="relative mb-2 h-16 w-[39%] flex flex-col items-center">
@@ -86,6 +98,7 @@
                                 name="password_confirmation"
                                 class="text-center h-[90%] w-full border-2ext-md tracking-wide font-medium border  rounded-full border-gray-300 rounded-g cursor-pointer focus:outline-none focus focus:border-orng text-gray-500" />
                         </div>
+
 
                     </div>
 
@@ -98,6 +111,9 @@
                                 name="phone"
                                 placeholder=""
                                 class="text-center h-[90%] w-full border-2ext-md tracking-wide font-medium border  rounded-full border-gray-300 rounded-g cursor-pointer focus:outline-none focus focus:border-orng text-gray-500" />
+                            @error('phone')
+                            <span style="color:red; font-size:larg; ">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="relative mb-2 h-16 w-[39%] flex flex-col items-center">
                             <label for="phone2" class="text-gray-600 font-semibold text-center ">Tel secondaire</label>
@@ -118,10 +134,10 @@
                         <select name="country" id="country"
                             class="w-full h-full text-center text-md tracking-wide font-medium border  rounded-full border-gray-300 rounded-g cursor-pointer focus:outline-none focus:ring-0 focus:border-transparent text-gray-500">
                             <!-- <option class="cursor-pointer" value="0" disabled selected>Pays</option> -->
-                            <option class="cursor-pointer" value="France" selected>France</option>
-                            <option class="cursor-pointer" value="Belgique">Belgique</option>
-                            <option class="cursor-pointer" value="Suisse">Suisse</option>
-                            <option class="cursor-pointer" value="Luxembourg">Luxembourg</option>
+                            <option class="cursor-pointer" value="1" selected>France</option>
+                            <option class="cursor-pointer" value="2">Belgique</option>
+                            <option class="cursor-pointer" value="3">Suisse</option>
+                            <option class="cursor-pointer" value="4">Luxembourg</option>
 
 
                         </select>
@@ -157,19 +173,28 @@
                             name="postalcode"
                             id="postal-code"
                             class="text-center h-[90%] w-full border-2ext-md tracking-wide font-medium border  rounded-full border-gray-300 rounded-g cursor-pointer focus:outline-none focus focus:border-orng text-gray-500" />
+                        @error('codepostal')
+                        <span style="color:red; font-size:larg; ">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="relative mb-2 w-[60%] h-10 flex flex-col items-center ">
                         <select
+                            name="city"
+                            id="city"
                             class="w-full h-full text-center text-md tracking-wide font-medium border  rounded-full border-gray-300 rounded-g cursor-pointer focus:outline-none focus:ring-0 focus:border-transparent text-gray-500">
                             <!-- <option class="cursor-pointer" value="0" disabled selected >Ville</option> -->
-                            <option class="cursor-pointer" value="0">city</option>
+                            <option class="cursor-pointer" value="0"></option>
 
                         </select>
 
                     </div>
                     <div>
                         <input type="checkbox" name="validationCGV" value="1"> J'accepte les <a href="https://www.amimalin.com/cgv/" class="text-marron underline">Conditions Générales du site</a>
+                        @error('validationCGV')
+                        <span style="color:red; font-size:larg; ">{{ $message }}</span>
+                        @enderror
+
                     </div>
 
                     <div class="w-44 h-12 mt-3   lg:w-[50%] md:w-48 lg:h-8 lg:mt-3">
@@ -184,6 +209,7 @@
 
                     <input type="hidden" id="latitude" name="latitude" value="">
                     <input type="hidden" id="longitude" name="longitude" value="">
+
 
                 </div>
                 @if ($errors)
@@ -203,31 +229,81 @@
 </div>
 
 <script defer async>
+
     let postalCode = document.getElementById('postal-code');
     let country = document.getElementById('country');
     let latitude = document.getElementById('latitude');
     let longitude = document.getElementById('longitude');
-    postalCode.addEventListener('change', () => {
-        console.log(postalCode.value);
-        console.log(country.value);
-        axios.get(`/geocode`, {
-                params: {
-                    postal_code: postalCode.value,
-                    country: country.value
+    let city = document.getElementById('city');
+    let countries = [{
+            '1': 'France',
+        },
+        {
+            '2': 'Belgique',
+        },
+        {
+            '3': 'Suisse',
+
+        },
+        {
+            '4': 'Luxembourg',
+        }
+    ]
+
+    const updateCityOptions = (cityName, lat, lng)=>{
+        console.log('updating city options')
+        city.innerHTML = ''
+        const option = document.createElement('option');
+        option.value = cityName
+        option.text = cityName
+        city.appendChild(option)
+        latitude.value = lat
+        longitude.value = lng
+    }
+
+    handleInvalidPostalCode=()=>{
+        city.innerHTML = ''
+        const option = document.createElement('option')
+        option.value = 'CP invalide'
+        option.innerText = 'CP invalide'
+        city.appendChild(option)
+    }
+
+    fetchGeoCoder=()=>{
+        console.log('fetching geocoder')
+        axios.get('/geocode',{
+            params:{
+                postal_code: postalCode.value,
+                country: countries[0][country.value]
+            }
+        })
+        .then(resp=>{
+            console.log('La reponse est la', resp.data.items)
+            const items = resp.data.items
+            items ? console.log('items', items) : console.log('items est vide')
+            if(items){
+                const {city:cityName, countryName} = items[0].address
+                const {lat,lng}=items[0].position
+                if(cityName && countryName === countries[0][country.value]){
+                    console.log('cityName', cityName)
+
+                    updateCityOptions(cityName, lat, lng)
                 }
-            })
-            .then(resp => {
-                console.log(resp.data.items)
-                console.log(resp.data.items[0].position)
-                latitude.value = resp.data.items[0].position.lat;
-                longitude.value = resp.data.items[0].position.lng;
+                else{
+                    handleInvalidPostalCode()
+                }
 
-            })
-            .catch(err => {
-                console.log('Lerreur est la', err)
-            })
+            }
+            else{
+                handleInvalidPostalCode()
+            }
+        })
+        .catch(err=>{
+            console.log('Lerreur est la', err)
+        })
+    }
+    postalCode.addEventListener('change', fetchGeoCoder)
 
-    })
 </script>
 
 @endsection

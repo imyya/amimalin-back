@@ -22,6 +22,10 @@ return [
             'label' => 'Connexion',
             'route' => '/login',
         ],
+        [
+            'label' => 'Deconnexion',
+            'route' => '/logout',
+        ],
     ],
 
     'mobile_items' => [
@@ -44,6 +48,10 @@ return [
         [
             'label' => 'Connexion',
             'route' => '/login',
+        ],
+        [
+            'label' => 'Deconnexion',
+            'route' => '/logout',
         ],
     ],
 ];

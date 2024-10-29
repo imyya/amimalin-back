@@ -36,7 +36,6 @@ class AuthController extends Controller
     public function login(Loginrequest $request)
     {
 
-
         try {
             // Chercher l'utilisateur par email
             $user = User::where('email', $request->email)->first();
@@ -45,7 +44,7 @@ class AuthController extends Controller
                 Auth::login($user);
                 $request->session()->regenerate();
 
-                return redirect()->route('home')->with('success', 'Vous êtes connecté');
+                return redirect('home')->with('success', 'Vous êtes connecté');
             }
 
             // Alert::toast('Email ou mot de passe incorrect.', 'error')->position('top-end');
@@ -57,7 +56,7 @@ class AuthController extends Controller
             // \Log::error('Login error: ' . $e->getMessage());
 
             return back()->withErrors([
-                'error' => 'Une erreur est survenue lors de la tentative de connexion. Veuillez réessayer plus tard.',
+                'error' => 'Une erreur est survenue lors de la tentative de connexion. Veuillez réessayer plus tard.'.$e,
             ])->withInput();
         }
 
@@ -99,7 +98,7 @@ class AuthController extends Controller
                 ])->withInput();
             }
 
-            $hashedPassword = app(Sha512Hasher::class)->make($content['password']->password);
+            $hashedPassword = app(Sha512Hasher::class)->make($content['password']);
             $user = User::create([
                 'latitude' => $content['latitude'],
                 'email' => $content['email'],
@@ -110,39 +109,25 @@ class AuthController extends Controller
                 'firstname' => $content['firstname'],
                 'lastname' => $content['lastname'],
                 'name' => $content['firstname'] . ' ' . $content['lastname'],
+                
             
             ]);
+            return redirect('home')->with('success', 'Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.');
         } catch (\Exception $e) {
+            // \Log::error('Registration error: ' . $e->getMessage());
+
+            return back()->withErrors([
+                'error' => 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer plus tard.'.$e
+            ])->withInput();
 
         }
-
-
-
-        //dd($hashedPassword);
-
-        //dd($request);
-
-
-        // $token = JWTAuth::fromUser($user);
-        // return response()->json([
-        //     'ok' => true,
-        //     'message' => 'User created successfully',
-        //     'data' => UserResource::make($user),
-        //     'authorisation' => [
-        //         'token' => $token,
-        //         'type' => 'bearer',
-        //     ]
-        // ]);
     }
 
 
     public function logout()
     {
         Auth::logout();
-        return response()->json([
-            'ok' => 'true',
-            'message' => 'Successfully logged out',
-        ]);
+       return redirect('login')->with('success', 'Vous êtes déconnecté');
     }
 
     public function refresh()

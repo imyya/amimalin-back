@@ -28,6 +28,9 @@ class RegisterRequest extends FormRequest
             'firstname'=> 'required|string|max:255',
             'lastname'=> 'required|string|max:255',
             'phone'=> 'required|string|max:255',
+            'postalcode'=> 'required|string|max:255',
+            'validationCGV' => 'required|accepted',
+
             // 'latitude' => 'required|numeric', // Validation pour latitude
             // 'longitude' => 'required|numeric', // Validation pour longitude
 
@@ -37,6 +40,7 @@ class RegisterRequest extends FormRequest
     public function messages()
     {
         return [
+            'title.required' => 'La civilite est obligatoire.',
             'name.required' => 'Le nom est obligatoire.',
             'email.required' => 'L\'email est obligatoire.',
             'email.email' => 'L\'email doit être un format valide.',
@@ -47,6 +51,8 @@ class RegisterRequest extends FormRequest
             'firstname.required' => 'Le prenom est obligatoire.',
             'lastname.required' => 'Le nom est obligatoire.',
             'phone.required' => 'Le telephone est obligatoire.',
+            'postalcode.required' => 'Le code postal est obligatoire.',
+            'validationCGV.required' => 'Vous devez accepter les CGV.',
 
         ];
     }
